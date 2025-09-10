@@ -1,0 +1,4 @@
+# Ignore backend secrets
+BackEnd/.env
+BackEnd/src/main/resources/application.yml
+BackEnd/src/main/resources/.env
