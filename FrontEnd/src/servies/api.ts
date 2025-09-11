@@ -64,6 +64,7 @@ export const postAPI = {
 
     return api.get(`/posts?${queryParams.toString()}`)
   },
+  
   getPostById: (id: number) => api.get(`/posts/${id}`),
   createPost: (postData: { title: string; content: string }) => api.post("/posts", postData),
   updatePost: (id: number, postData: { title: string; content: string }) => api.put(`/posts/${id}`, postData),

@@ -15,18 +15,20 @@ export interface Post {
   updatedAt: string
 }
 
+
 interface PostState {
   posts: Post[]
   currentPost: Post | null
   loading: boolean
   error: string | null
   pagination: {
-    page: number
+    currentPage: number
     size: number
     totalElements: number
     totalPages: number
   }
 }
+
 
 const initialState: PostState = {
   posts: [],
@@ -34,7 +36,7 @@ const initialState: PostState = {
   loading: false,
   error: null,
   pagination: {
-    page: 0,
+    currentPage: 0,
     size: 10,
     totalElements: 0,
     totalPages: 0,
@@ -52,8 +54,10 @@ export const fetchPosts = createAsyncThunk(
       myPosts?: boolean
     } = {},
   ) => {
-    const response = await postAPI.getAllPosts(params)
-    return response.data
+  const response = await postAPI.getAllPosts(params)
+  console.log('fetchPosts API response:', response)
+  const result = (response.data as { success: boolean; message: string; data: Post[] | { content: Post[]; number: number; size: number; totalElements: number; totalPages: number } })
+  return result.data
   },
 )
 
@@ -99,20 +103,40 @@ const postSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.loading = false
-        const payload = action.payload as {
-          content?: Post[]
-          number?: number
-          size?: number
-          totalElements?: number
-          totalPages?: number
-          length?: number
-        } | Post[]
-        state.posts = Array.isArray(payload) ? payload as Post[] : (payload.content ?? [])
-        state.pagination = {
-          page: !Array.isArray(payload) && payload.number !== undefined ? payload.number : 0,
-          size: !Array.isArray(payload) && payload.size !== undefined ? payload.size : 10,
-          totalElements: !Array.isArray(payload) && payload.totalElements !== undefined ? payload.totalElements : (Array.isArray(payload) ? payload.length : 0),
-          totalPages: !Array.isArray(payload) && payload.totalPages !== undefined ? payload.totalPages : 1,
+        console.log('fetchPosts.fulfilled payload:', action.payload)
+        const payload = action.payload as any
+        if (payload.posts) {
+          state.posts = payload.posts
+          state.pagination = {
+            currentPage: payload.currentPage ?? 0,
+            size: state.pagination.size,
+            totalElements: payload.totalElements ?? 0,
+            totalPages: payload.totalPages ?? 1,
+          }
+        } else if (payload.content) {
+          state.posts = payload.content
+          state.pagination = {
+            currentPage: payload.number ?? 0,
+            size: payload.size ?? state.pagination.size,
+            totalElements: payload.totalElements ?? 0,
+            totalPages: payload.totalPages ?? 1,
+          }
+        } else if (Array.isArray(payload)) {
+          state.posts = payload
+          state.pagination = {
+            currentPage: 0,
+            size: state.pagination.size,
+            totalElements: payload.length,
+            totalPages: 1,
+          }
+        } else {
+          state.posts = []
+          state.pagination = {
+            currentPage: 0,
+            size: state.pagination.size,
+            totalElements: 0,
+            totalPages: 1,
+          }
         }
       })
       .addCase(fetchPosts.rejected, (state, action) => {

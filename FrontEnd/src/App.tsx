@@ -5,7 +5,7 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "./store/store"
 import { checkAuthStatus } from "./store/slices/authSlice"
-// import Navbar from "./components/Layout/Navbar"
+import Navbar from "./components/Layout/Navbar"
 import Login from "./components/Auth/Login"
 import Register from "./components/Auth/Register"
 // import PostList from "./components/Posts/PostList"
@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Navbar /> */}
+      <Navbar />
       <div className="container mt-4">
         <Routes>
           <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/posts" />} />

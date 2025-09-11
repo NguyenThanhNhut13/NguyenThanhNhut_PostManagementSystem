@@ -26,11 +26,14 @@ const PostList: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState<number | null>(null)
 
   useEffect(() => {
-    dispatch(fetchPosts(filters) as any)
+  console.log('PostList useEffect filters:', filters)
+  dispatch(fetchPosts(filters) as any)
+  console.log('Dispatched fetchPosts')
   }, [dispatch, filters])
 
   const handleFilterChange = (newFilters: Partial<typeof filters>) => {
-    setFilters({ ...filters, ...newFilters, page: 0 })
+  setFilters({ ...filters, ...newFilters, page: 0 })
+  console.log('Filter changed:', { ...filters, ...newFilters, page: 0 })
   }
 
   const handlePageChange = (page: number) => {
@@ -238,11 +241,11 @@ const PostList: React.FC = () => {
       {pagination.totalPages > 1 && (
         <nav aria-label="Phân trang bài viết" className="mt-4">
           <ul className="pagination justify-content-center">
-            <li className={`page-item ${pagination.page === 0 ? "disabled" : ""}`}>
+            <li className={`page-item ${pagination.currentPage === 0 ? "disabled" : ""}`}>
               <button
                 className="page-link"
-                onClick={() => handlePageChange(pagination.page - 1)}
-                disabled={pagination.page === 0 || loading}
+                onClick={() => handlePageChange(pagination.currentPage - 1)}
+                disabled={pagination.currentPage === 0 || loading}
                 title="Trang trước"
               >
                 <i className="fas fa-chevron-left"></i>
@@ -251,31 +254,29 @@ const PostList: React.FC = () => {
 
             {/* Show page numbers with ellipsis for large page counts */}
             {(() => {
-              const currentPage = pagination.page
-              const totalPages = pagination.totalPages
-              const pages = []
+              const currentPage = pagination.currentPage;
+              const totalPages = pagination.totalPages;
+              const pages = [];
 
               if (totalPages <= 7) {
-                // Show all pages if total is 7 or less
                 for (let i = 0; i < totalPages; i++) {
-                  pages.push(i)
+                  pages.push(i);
                 }
               } else {
-                // Show first page, current page area, and last page with ellipsis
                 if (currentPage <= 3) {
-                  for (let i = 0; i < 5; i++) pages.push(i)
-                  pages.push(-1) // ellipsis
-                  pages.push(totalPages - 1)
+                  for (let i = 0; i < 5; i++) pages.push(i);
+                  pages.push(-1);
+                  pages.push(totalPages - 1);
                 } else if (currentPage >= totalPages - 4) {
-                  pages.push(0)
-                  pages.push(-1) // ellipsis
-                  for (let i = totalPages - 5; i < totalPages; i++) pages.push(i)
+                  pages.push(0);
+                  pages.push(-1);
+                  for (let i = totalPages - 5; i < totalPages; i++) pages.push(i);
                 } else {
-                  pages.push(0)
-                  pages.push(-1) // ellipsis
-                  for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i)
-                  pages.push(-2) // ellipsis
-                  pages.push(totalPages - 1)
+                  pages.push(0);
+                  pages.push(-1);
+                  for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+                  pages.push(-2);
+                  pages.push(totalPages - 1);
                 }
               }
 
@@ -285,23 +286,23 @@ const PostList: React.FC = () => {
                     <li key={`ellipsis-${index}`} className="page-item disabled">
                       <span className="page-link">...</span>
                     </li>
-                  )
+                  );
                 }
                 return (
-                  <li key={page} className={`page-item ${page === pagination.page ? "active" : ""}`}>
+                  <li key={page} className={`page-item ${page === pagination.currentPage ? "active" : ""}`}>
                     <button className="page-link" onClick={() => handlePageChange(page)} disabled={loading}>
                       {page + 1}
                     </button>
                   </li>
-                )
-              })
+                );
+              });
             })()}
 
-            <li className={`page-item ${pagination.page === pagination.totalPages - 1 ? "disabled" : ""}`}>
+            <li className={`page-item ${pagination.currentPage === pagination.totalPages - 1 ? "disabled" : ""}`}>
               <button
                 className="page-link"
-                onClick={() => handlePageChange(pagination.page + 1)}
-                disabled={pagination.page === pagination.totalPages - 1 || loading}
+                onClick={() => handlePageChange(pagination.currentPage + 1)}
+                disabled={pagination.currentPage === pagination.totalPages - 1 || loading}
                 title="Trang sau"
               >
                 <i className="fas fa-chevron-right"></i>
@@ -310,7 +311,7 @@ const PostList: React.FC = () => {
           </ul>
 
           <div className="text-center text-muted mt-2">
-            Trang {pagination.page + 1} / {pagination.totalPages}
+            Trang {pagination.currentPage + 1} / {pagination.totalPages}
             {pagination.totalElements !== undefined && <span> - Tổng cộng {pagination.totalElements} bài viết</span>}
           </div>
         </nav>
