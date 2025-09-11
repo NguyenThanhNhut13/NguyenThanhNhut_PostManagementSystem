@@ -34,6 +34,11 @@ NguyenThanhNhut_PostManagementSystem/
 
 ## Hướng dẫn chạy nhanh toàn bộ hệ thống
 
+Bạn có thể trải nghiệm và kiểm thử FrontEnd trực tiếp trên môi trường deploy tại:
+
+https://nguyen-thanh-nhut-post-management-s.vercel.app/
+
+
 ### 1. Chuẩn bị môi trường
 
 - Cài đặt **Java 17+**, **Node.js 16+**, **npm**, **MySQL** (nếu dùng MySQL)
