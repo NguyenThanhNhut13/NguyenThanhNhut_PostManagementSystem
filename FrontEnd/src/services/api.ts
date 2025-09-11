@@ -75,7 +75,6 @@ export const userAPI = {
   getAllUsers: () => api.get("/users"),
   getCurrentUser: () => api.get("/users/me"),
   deleteUser: (id: number) => api.delete(`/users/${id}`),
-  updateUserRole: (id: number, role: string) => api.put(`/users/${id}/role`, { role }),
 }
 
 export default api

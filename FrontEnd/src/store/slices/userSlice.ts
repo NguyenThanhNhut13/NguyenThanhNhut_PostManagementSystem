@@ -38,19 +38,6 @@ export const deleteUser = createAsyncThunk("users/deleteUser", async (id: number
   return id
 })
 
-export const updateUserRole = createAsyncThunk<User, { id: number; role: string }>(
-  "users/updateUserRole",
-  async ({ id, role }) => {
-    const response = await userAPI.updateUserRole(id, role);
-    const result = response.data as {
-      success: boolean;
-      message: string;
-      data: User;
-    };
-    return result.data;
-  },
-)
-
 const userSlice = createSlice({
   name: "users",
   initialState,
@@ -75,12 +62,6 @@ const userSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.users = state.users.filter((user) => user.id !== action.payload)
-      })
-      .addCase(updateUserRole.fulfilled, (state, action) => {
-        const index = state.users.findIndex((user) => user.id === action.payload.id)
-        if (index !== -1) {
-          state.users[index] = action.payload
-        }
       })
   },
 })

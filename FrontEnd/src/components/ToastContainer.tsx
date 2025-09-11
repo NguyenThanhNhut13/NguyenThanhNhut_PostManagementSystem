@@ -15,7 +15,15 @@ const ToastContainer: React.FC = () => {
   }
 
   return (
-    <div className="toast-container position-fixed top-0 end-0 p-3" style={{ zIndex: 1055 }}>
+    <div 
+      className="toast-container position-fixed top-0 end-0 p-3" 
+      style={{ 
+        zIndex: 9999,
+        maxWidth: '350px',
+        width: '100%',
+        pointerEvents: 'auto'
+      }}
+    >
       {toasts.map((toast) => (
         <Toast
           key={toast.id}

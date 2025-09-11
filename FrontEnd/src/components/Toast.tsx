@@ -51,10 +51,40 @@ const Toast: React.FC<ToastProps> = ({ id, message, type, duration = 5000, onClo
   }
 
   return (
-    <div className={`alert ${getToastClass()} alert-dismissible fade show toast-notification`} role="alert">
-      <i className={`${getIcon()} me-2`}></i>
-      {message}
-      <button type="button" className="btn-close" onClick={() => onClose(id)} aria-label="Close"></button>
+    <div 
+      className={`alert ${getToastClass()} fade show toast-notification`} 
+      role="alert"
+      style={{ 
+        marginBottom: '10px',
+        position: 'relative',
+        padding: '0.75rem 1.25rem'
+      }}
+    >
+      <div className="d-flex justify-content-between align-items-center w-100">
+        <div className="toast-content">
+          <i className={`${getIcon()} me-2`}></i>
+          <span>{message}</span>
+        </div>
+        <button 
+          type="button" 
+          onClick={() => onClose(id)}
+          style={{
+            position: 'absolute',
+            top: '0.5rem',
+            right: '0.5rem',
+            background: 'transparent',
+            border: 'none',
+            fontSize: '1.25rem',
+            cursor: 'pointer',
+            padding: '0.25rem 0.5rem',
+            color: 'inherit',
+            opacity: '0.5',
+          }}
+          aria-label="Close"
+        >
+          ×
+        </button>
+      </div>
     </div>
   )
 }
