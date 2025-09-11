@@ -4,6 +4,12 @@
 
 Frontend của hệ thống quản lý bài viết, xây dựng bằng React + TypeScript + Vite.
 
+## Test trực tiếp trên môi trường deploy
+
+Bạn có thể trải nghiệm và kiểm thử FrontEnd trực tiếp trên môi trường deploy tại:
+
+https://nguyen-thanh-nhut-post-management-s.vercel.app/
+
 ## Cài đặt & chạy
 
 ```bash
@@ -35,238 +41,73 @@ npm run build
 - Hiển thị thông báo (toast) khi thao tác thành công/thất bại
 - Điều hướng bằng React Router
 
-## Kiểm thử
+# FrontEnd - Post Management System
 
-- Đăng ký tài khoản mới
-- Đăng nhập, kiểm tra JWT lưu ở localStorage
-- Tạo bài viết mới, kiểm tra hiển thị
-- Sửa/xóa bài viết của mình
+## Giới thiệu
 
-## Lưu ý
+Đây là frontend của hệ thống quản lý bài viết, xây dựng bằng React, TypeScript và Vite. Dự án này được phát triển theo yêu cầu thực tập, đáp ứng các chức năng quản lý người dùng, bài viết, xác thực và giao tiếp với backend.
 
-- Nếu backend chạy ở cổng khác, cần sửa lại biến môi trường FE.
-- Nếu gặp lỗi CORS, kiểm tra cấu hình backend.
-│   ├── components/       # Reusable components
-│   │   ├── Auth/         # Authentication components
-│   │   ├── Layout/       # Layout components
-│   │   └── Posts/        # Post-related components
-│   ├── services/         # API services
-│   └── store/            # Redux store
-├── public/               # Static files
-├── package.json          # NPM dependencies
-└── vite.config.ts        # Vite configuration
-```
+## Test trực tiếp trên môi trường deploy
 
-## Installation & Setup
+Bạn có thể trải nghiệm và kiểm thử FrontEnd trực tiếp trên môi trường deploy tại:
 
-### Prerequisites
-- Node.js 16.x or higher
-- npm or yarn
+https://nguyen-thanh-nhut-post-management-s.vercel.app/
 
-### Setup Instructions
+## Công nghệ sử dụng
 
-1. Clone the repository:
-```bash
-git clone https://github.com/NguyenThanhNhut13/NguyenThanhNhut_PostManagementSystem.git
-cd NguyenThanhNhut_PostManagementSystem/Frontend
-```
+- React
+- TypeScript
+- Vite
+- Redux Toolkit
+- Axios
 
-2. Install dependencies:
+## Cài đặt & chạy dự án
+
+### 1. Cài đặt dependencies
+
 ```bash
 npm install
 ```
 
-3. Start the development server:
+### 2. Khởi động server phát triển
+
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:3000`.
+- Mặc định chạy ở http://localhost:3000
 
-## Configuration
+## Cấu hình API
 
-The application uses environment variables for configuration:
+- Sửa file `.env` để trỏ đúng URL backend (ví dụ khi deploy trên Render):
 
-- `VITE_API_BASE_URL` - Base URL for the backend API (defaults to local API proxy)
+  ```
+  RENDER_URL=https://nguyenthanhnhut-postmanagementsystem.onrender.com/api
+  ```
 
-### API Proxy Configuration
+- Đảm bảo backend đã chạy ở đúng địa chỉ này.
 
-For local development, the Vite server is configured to proxy API requests to the backend:
+- [Tải file .env từ Google Drive](https://drive.google.com/drive/folders/1j3elf4vwnu3OxrMUk3XpZajc69X-SIgt?usp=sharing)
 
-```typescript
-// vite.config.ts
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 3000,
-    proxy: {
-      "/api": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
-  // ...
-})
-```
+## Các chức năng chính
 
-This means you don't need to modify the API base URL for local development. All requests to `/api/*` will be automatically forwarded to `http://localhost:8080/api/*`.
+- Đăng ký, đăng nhập
+- Quản lý bài viết (tạo, sửa, xóa, xem chi tiết)
+- Quản lý người dùng (dành cho admin)
+- Hiển thị thông báo (Toast)
+- Bảo vệ route (ProtectedRoute, AdminRoute)
 
-## Using the Application
+## Lưu ý
 
-### Registration and Login
+- Đảm bảo backend đã deploy và cho phép CORS để frontend truy cập API.
+- Nếu thay đổi endpoint backend, cần sửa lại biến môi trường trong `.env` và build lại frontend.
+- Source code đã được tổ chức rõ ràng theo các module: components, services, store, slices.
 
-1. Access the application at `http://localhost:3000`
-2. Click "Register" to create a new account
-3. Fill in the required information:
-   - Username (required, unique)
-   - Password (required)
-   - First Name (required)
-   - Last Name (required)
-   - Email (required, unique)
-   - Gender (required)
-4. After registration, you'll be redirected to the login page
-5. Enter your username and password to log in
-
-### Creating and Managing Posts
-
-1. After logging in, you'll see the post list page
-2. Click "Create New Post" to create a new post
-3. Fill in the title and content, then click "Create Post"
-4. Your new post will appear in the post list
-5. To view a post's details, click on "View Details"
-6. To edit your own post, click the edit icon
-7. To delete your own post, click the delete icon
-
-### Filtering and Sorting Posts
-
-1. Use the filter options to:
-   - Show only your own posts by checking "Only my posts"
-   - Sort by creation date, update date, or title
-   - Change sort direction (newest first or oldest first)
-   - Adjust the number of posts per page
-
-### Searching Posts
-
-1. Use the search bar at the top of the post list to search for posts by title
-2. Results are filtered in real-time as you type
-
-### Admin Features
-
-If you have an admin account:
-
-1. Access the admin panel from the navigation menu
-2. View all registered users
-3. Change user roles between "User" and "Admin"
-4. Delete users (except your own account)
-5. You can edit or delete any post regardless of ownership
-
-## Default Admin Account
-
-For testing purposes, the system is initialized with an admin account:
-
-- Username: `admin`
-- Password: `admin123`
-
-## Environment Configuration
-
-The application supports different environments through environment variables:
-
-### Backend
-
-Configure database and security settings in `application.properties` or through environment variables.
-
-### Frontend
-
-The frontend uses environment variables for API configuration:
-
-- `VITE_API_BASE_URL` - Base URL for the backend API
-
-For local development, it defaults to `http://localhost:8080/api`.
-
-## Deployment
-
-### Building for Production
-
-1. Build the frontend application:
-```bash
-npm run build
-```
-
-2. The production-ready files will be generated in the `dist` directory.
-
-### Deploying to Vercel or similar platforms
-
-1. Connect your GitHub repository to Vercel
-2. Configure the environment variables in the Vercel dashboard:
-   - Set `VITE_API_BASE_URL` to your backend API URL (e.g., `https://your-backend-api.com/api`)
-3. Deploy the application
-
-### Environment Variables for Production
-
-When deploying to production, you'll need to set the environment variables:
-
-1. Create a `.env.production` file in the root of the frontend project:
-```
-VITE_API_BASE_URL=https://your-backend-api.com/api
-```
-
-2. Or set the environment variables in your deployment platform.
-
-## Troubleshooting
-
-### Common Issues
-
-1. **API Connection Issues**:
-   - Check if the backend server is running on the expected port
-   - Verify that the Vite proxy configuration is correct
-   - Look for CORS errors in the browser console
-
-2. **Authentication Problems**:
-   - JWT tokens expire after a period of time, requiring re-login
-   - If you get "Unauthorized" errors, ensure your token is valid
-   - Check that the token is being correctly stored and sent with requests
-
-3. **UI/Rendering Issues**:
-   - Clear browser cache and refresh
-   - Check the browser console for JavaScript errors
-   - Verify that all dependencies are correctly installed
-
-## Author
+## Tác giả
 
 Nguyen Thanh Nhut
 
 ---
 
 © 2025 Nguyen Thanh Nhut - Post Management System Frontend
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+        changeOrigin: true,
