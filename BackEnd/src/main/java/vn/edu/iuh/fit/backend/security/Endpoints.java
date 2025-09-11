@@ -12,8 +12,9 @@ package vn.edu.iuh.fit.backend.security;
  * @version:    1.0
  */
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Endpoints {
-    public static final String FRONT_END_HOST = "http://localhost:3000";
     public static final String[] PUBLIC_GET_ENDPOINTS = {
             "/v2/api-docs",
             "/v3/api-docs",

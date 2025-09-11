@@ -28,16 +28,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import vn.edu.iuh.fit.backend.filter.JwtFilter;
 import vn.edu.iuh.fit.backend.service.UserService;
+import org.springframework.core.env.Environment;
 
 import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
-
     private final JwtFilter jwtFilter;
+    private final Environment environment;
 
-    public SecurityConfig(JwtFilter jwtFilter) {
+    @Autowired
+    public SecurityConfig(JwtFilter jwtFilter, Environment environment) {
         this.jwtFilter = jwtFilter;
+        this.environment = environment;
     }
 
     @Bean
@@ -70,7 +73,8 @@ public class SecurityConfig {
         http.cors(cors -> {
             cors.configurationSource(request -> {
                 CorsConfiguration config = new CorsConfiguration();
-                config.addAllowedOrigin(Endpoints.FRONT_END_HOST);
+                String frontEndHost = environment.getProperty("FRONT_END_HOST", "http://localhost:3000");
+                config.addAllowedOrigin(frontEndHost);
                 config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
                 config.addAllowedHeader("*");
                 return config;
