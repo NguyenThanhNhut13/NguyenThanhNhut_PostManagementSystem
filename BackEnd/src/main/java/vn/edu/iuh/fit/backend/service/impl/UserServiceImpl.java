@@ -98,7 +98,45 @@ public class UserServiceImpl implements UserService {
         return dto;
     }
 
-    private User getCurrentUser() {
+    @Override
+    public UserResponse getUserById(Long id) {
+        checkAdminRole();
+        return convertToDto(userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("Không tìm thấy người dùng với id: "+ id)
+        ));
+    }
+
+
+
+    //    public UserResponse updateUser(Long id, UserRequest userRequest) {
+//        checkAdminRole();
+//        User user = userRepository.findById(id)
+//                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng với ID: " + id));
+//
+//        user.setUsername(userRequest.getUsername());
+//        user.setEmail(userRequest.getEmail());
+//        user.setFirstName(userRequest.getFirstName());
+//        user.setLastName(userRequest.getLastName());
+//        user.setGender(userRequest.getGender());
+//        user.setRole(userRequest.getRole());
+//
+//        User updatedUser = userRepository.save(user);
+//        return convertToDto(updatedUser);
+//    }
+//
+//    public void deleteUser(Long id) {
+//        checkAdminRole();
+//        userRepository.deleteById(id);
+//    }
+//
+
+//
+//    public Optional<UserResponse> getUserByUsername(String username) {
+//        return userRepository.findByUsername(username).map(this::convertToDto);
+//    }
+
+    @Override
+    public UserResponse getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() ||
                 authentication instanceof AnonymousAuthenticationToken) {
@@ -106,8 +144,9 @@ public class UserServiceImpl implements UserService {
         }
 
         String username = authentication.getName();
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("Không tìm thấy người dùng."));
+
+        return convertToDto(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("Không tìm thấy người dùng.")));
     }
 
     private void checkAdminRole() {

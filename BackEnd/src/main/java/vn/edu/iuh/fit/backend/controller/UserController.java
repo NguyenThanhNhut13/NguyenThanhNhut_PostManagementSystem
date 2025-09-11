@@ -15,8 +15,10 @@ package vn.edu.iuh.fit.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vn.edu.iuh.fit.backend.dto.response.BaseResponse;
 import vn.edu.iuh.fit.backend.dto.response.UserResponse;
 import vn.edu.iuh.fit.backend.service.UserService;
 
@@ -32,6 +34,27 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(
+                new BaseResponse<>(true, "Lấy danh sách người dùng thành công!", users)
+        );
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        UserResponse response =  userService.getUserById(id);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(true, "Lấy thông tin người dùng thành công!", response)
+        );
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser() {
+        UserResponse response =  userService.getCurrentUser();
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(true, "Lấy thông tin người dùng thành công!", response)
+        );
+    }
+
 }

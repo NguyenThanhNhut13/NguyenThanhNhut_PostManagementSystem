@@ -21,4 +21,6 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     User findByUsername(String username);
     List<UserResponse> getAllUsers();
+    UserResponse getUserById(Long id);
+    UserResponse getCurrentUser();
 }
