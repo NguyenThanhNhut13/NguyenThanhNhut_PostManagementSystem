@@ -7,7 +7,7 @@ Backend API server cho hệ thống quản lý bài viết, xây dựng bằng J
 ## Công nghệ
 
 - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, JWT, Maven
-- Database: MySQL (hoặc H2 cho thử nghiệm)
+- Database: MySQL (Cloud Aiven)
 - BCrypt để mã hóa mật khẩu
 
 ## Cài đặt & chạy
@@ -22,7 +22,7 @@ Backend API server cho hệ thống quản lý bài viết, xây dựng bằng J
   DB_PASS=yourpassword
   DB_NAME=post_management
   ```
-- Tạo database `post_management` trong MySQL (hoặc dùng H2 nếu muốn thử nhanh)
+- Tạo database `post_management` trong MySQL 
 
 ### 2. Cài đặt dependencies
 
