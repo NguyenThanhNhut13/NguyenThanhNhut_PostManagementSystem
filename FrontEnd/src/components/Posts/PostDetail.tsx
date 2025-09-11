@@ -17,13 +17,14 @@ const PostDetail: React.FC = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchPostById(Number.parseInt(id)) as any)
+      console.log("Fetching post with ID:", id);
+      dispatch(fetchPostById(Number.parseInt(id)) as any);
     }
 
     return () => {
-      dispatch(clearCurrentPost())
-    }
-  }, [dispatch, id])
+      dispatch(clearCurrentPost());
+    };
+  }, [dispatch, id]);
 
   const handleDelete = async () => {
     if (!currentPost || !window.confirm("Are you sure you want to delete this post?")) {

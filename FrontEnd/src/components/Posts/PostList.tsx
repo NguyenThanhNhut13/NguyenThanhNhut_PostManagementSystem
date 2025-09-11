@@ -69,6 +69,17 @@ const PostList: React.FC = () => {
             type: "success",
           })
         );
+        
+        // If this was the last post on the page, go to the previous page
+        if (posts.length === 1 && pagination.currentPage > 0) {
+          setFilters({
+            ...filters,
+            page: pagination.currentPage - 1
+          });
+        } else if (posts.length === 0 && pagination.currentPage > 0) {
+          // If we're already on an empty page, refresh the data
+          dispatch(fetchPosts({...filters, page: pagination.currentPage - 1}) as any);
+        }
       } catch (error: any) {
         dispatch(
           addToast({
@@ -254,7 +265,7 @@ const PostList: React.FC = () => {
 
       {/* Posts Grid */}
       <div className="row">
-        {posts.map((post: Post) => (
+        {posts.filter(post => post && post.id).map((post: Post) => (
           <div key={post.id} className="col-md-6 col-lg-4 mb-4">
             <PostCard
               post={post}

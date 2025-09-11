@@ -31,7 +31,15 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, currentUser, onDelete, isDeleting = false }) => {
-  const isOwner = currentUser?.username === post.author.username || false
+  // Debug log to help diagnose issues with post data
+  if (!post.author) {
+    console.warn(`Post ID ${post.id} has missing author data:`, post);
+  }
+
+  // Add null checks to prevent accessing properties of undefined
+  const isOwner = currentUser?.username && post?.author?.username 
+    ? currentUser.username === post.author.username 
+    : false
   const isAdmin = currentUser?.role === "ROLE_ADMIN"
   const canEdit = isOwner || isAdmin
   const canDelete = isOwner || isAdmin
@@ -87,7 +95,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, currentUser, onDelete, isDele
             <div>
               <small className="text-muted d-block">
                 <strong>
-                  {post.author.firstName} {post.author.lastName}
+                  {post.author?.firstName || "Unknown"} {post.author?.lastName || ""}
                 </strong>
                 {isOwner && <span className="badge bg-primary ms-1">Bạn</span>}
               </small>

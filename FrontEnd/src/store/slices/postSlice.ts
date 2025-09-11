@@ -114,7 +114,9 @@ export const updatePost = createAsyncThunk(
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (id: number) => {
-    await postAPI.deletePost(id);
+    const response = await postAPI.deletePost(id);
+    console.log("deletePost response:", response);
+    // Just return the ID since we need it to filter out the deleted post
     return id;
   }
 );
@@ -172,21 +174,38 @@ const postSlice = createSlice({
       })
       .addCase(updatePost.fulfilled, (state, action) => {
         state.loading = false;
+        console.log("updatePost.fulfilled payload:", action.payload);
         const updatedPost = action.payload as Post;
+        
+        // Update in posts list if present
         const index = state.posts.findIndex(
           (post) => post.id === updatedPost.id
         );
         if (index !== -1) {
           state.posts[index] = updatedPost;
         }
+        
+        // Update current post
         state.currentPost = updatedPost;
       })
       .addCase(updatePost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to update post";
       })
+      .addCase(deletePost.pending, (state) => {
+        // We don't set loading=true here to avoid showing the loading spinner for the whole list
+        state.error = null;
+      })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.posts = state.posts.filter((post) => post.id !== action.payload);
+        // Update the totalElements count after deleting a post
+        state.pagination = {
+          ...state.pagination,
+          totalElements: state.pagination.totalElements - 1
+        };
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        state.error = action.error.message || "Failed to delete post";
       });
   },
 });

@@ -168,10 +168,10 @@ const EditPost: React.FC = () => {
           }),
         )
         
-        // Make sure we have the result before navigating
+        // Wait for state updates before navigating
         setTimeout(() => {
-          navigate(`/posts/${id}`)
-        }, 100)
+          navigate(`/posts/${id}`, { replace: true })
+        }, 300)
       } catch (error: any) {
         console.error("Error updating post:", error)
         dispatch(
@@ -180,7 +180,6 @@ const EditPost: React.FC = () => {
             type: "error",
           }),
         )
-      } finally {
         setSubmitting(false)
       }
     } else {
@@ -277,12 +276,17 @@ const EditPost: React.FC = () => {
               </div>
 
               <div className="d-flex justify-content-between">
-                <button type="button" className="btn btn-secondary" onClick={() => navigate(`/posts/${id}`)}>
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={() => navigate(`/posts/${id}`)}
+                  disabled={submitting}
+                >
                   <i className="fas fa-times me-2"></i>
                   Hủy
                 </button>
 
-                <button type="submit" className="btn btn-primary" disabled={submitting || loading}>
+                <button type="submit" className="btn btn-primary" disabled={submitting}>
                   {submitting ? (
                     <>
                       <span className="spinner-border spinner-border-sm me-2" role="status"></span>
