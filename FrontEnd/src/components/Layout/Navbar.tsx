@@ -35,20 +35,20 @@ const Navbar: React.FC = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/posts">
                     <i className="fas fa-list me-1"></i>
-                    All Posts
+                    Danh Sách Bài Viết
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/posts/create">
                     <i className="fas fa-plus me-1"></i>
-                    Create Post
+                    Tạo Bài Viết
                   </Link>
                 </li>
                 {user?.role === "ROLE_ADMIN" && (
                   <li className="nav-item">
                     <Link className="nav-link" to="/admin/users">
                       <i className="fas fa-users me-1"></i>
-                      Manage Users
+                      Quản Lý Người Dùng
                     </Link>
                   </li>
                 )}
@@ -67,7 +67,7 @@ const Navbar: React.FC = () => {
                   <li>
                     <button className="dropdown-item" onClick={handleLogout}>
                       <i className="fas fa-sign-out-alt me-1"></i>
-                      Logout
+                      Đăng Xuất
                     </button>
                   </li>
                 </ul>
@@ -77,13 +77,13 @@ const Navbar: React.FC = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/login">
                     <i className="fas fa-sign-in-alt me-1"></i>
-                    Login
+                    Đăng Nhập
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/register">
                     <i className="fas fa-user-plus me-1"></i>
-                    Register
+                    Đăng Ký
                   </Link>
                 </li>
               </>
