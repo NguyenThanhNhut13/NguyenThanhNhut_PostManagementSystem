@@ -24,6 +24,8 @@ import vn.edu.iuh.fit.backend.dto.request.RegisterRequest;
 import vn.edu.iuh.fit.backend.dto.response.JwtResponse;
 import vn.edu.iuh.fit.backend.dto.response.RegisterResponse;
 import vn.edu.iuh.fit.backend.exception.BadRequestException;
+import vn.edu.iuh.fit.backend.exception.CredentialAlreadyExistException;
+import vn.edu.iuh.fit.backend.exception.InvalidCredentialException;
 import vn.edu.iuh.fit.backend.model.Role;
 import vn.edu.iuh.fit.backend.model.User;
 import vn.edu.iuh.fit.backend.repository.RoleRepository;
@@ -49,10 +51,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public RegisterResponse registerNewUser(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Tên tài khoản đã tồn tại!");
+            throw new CredentialAlreadyExistException("Tên tài khoản đã tồn tại!");
         }
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email đã tồn tại!");
+            throw new CredentialAlreadyExistException("Email đã tồn tại!");
         }
 
         // Create new User
@@ -91,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
         } catch (AuthenticationException e) {
-            throw new BadRequestException("Tài khooản hoặc mật khẩu không chính xác!");
+            throw new InvalidCredentialException("Tài khooản hoặc mật khẩu không chính xác!");
         }
 
         UserDetails userDetails = userService.loadUserByUsername(request.getUsername());
