@@ -1,43 +1,51 @@
-# Post Management System - Frontend
+# FrontEnd - Post Management System
 
-This is the frontend part of the Post Management System application, built with React and TypeScript. The application provides a user interface for managing posts, including user authentication, post creation, editing, and admin features.
+## Giới thiệu
 
-## Features
+Frontend của hệ thống quản lý bài viết, xây dựng bằng React + TypeScript + Vite.
 
-### User Management
-- User registration with username, password, first name, last name, email, and gender
-- User authentication using JWT (JSON Web Token)
-- Role-based access control (User and Admin roles)
+## Cài đặt & chạy
 
-### Post Management
-- Create new posts with title and content
-- View all posts with pagination and sorting
-- Filter posts by author (view only your own posts)
-- View post details
-- Edit posts (only allowed for post owner or admin)
-- Delete posts (only allowed for post owner or admin)
-- Search posts by title
-
-### Admin Features
-- User management (view, delete users, change roles)
-- Access to all posts with ability to edit/delete any post
-
-## Technology Stack
-
-- React 18.x with TypeScript
-- React Router for navigation
-- Redux for state management
-- Axios for API calls
-- Bootstrap 5 for UI components
-- Vite as build tool
-
-## Project Structure
-
+```bash
+npm install
+npm run dev
 ```
-Frontend/
-├── src/                  # Source code
-│   ├── Admin/            # Admin components
-│   ├── assets/           # Static assets
+
+- Mặc định chạy ở http://localhost:3000
+- Đảm bảo backend đã chạy ở http://localhost:8080 (hoặc chỉnh sửa biến môi trường trong `.env`)
+
+## Cấu hình API
+
+- Sửa file `.env` để trỏ đúng URL backend:
+  ```
+  VITE_API_URL=http://localhost:8080/api
+  ```
+
+## Build & Deploy
+
+```bash
+npm run build
+```
+- Output nằm ở thư mục `dist/`
+
+## Các chức năng chính
+
+- Đăng ký, đăng nhập (JWT)
+- Quản lý bài viết: tạo, xem, sửa, xóa
+- Hiển thị thông báo (toast) khi thao tác thành công/thất bại
+- Điều hướng bằng React Router
+
+## Kiểm thử
+
+- Đăng ký tài khoản mới
+- Đăng nhập, kiểm tra JWT lưu ở localStorage
+- Tạo bài viết mới, kiểm tra hiển thị
+- Sửa/xóa bài viết của mình
+
+## Lưu ý
+
+- Nếu backend chạy ở cổng khác, cần sửa lại biến môi trường FE.
+- Nếu gặp lỗi CORS, kiểm tra cấu hình backend.
 │   ├── components/       # Reusable components
 │   │   ├── Auth/         # Authentication components
 │   │   ├── Layout/       # Layout components

@@ -8,13 +8,9 @@ import { checkAuthStatus, fetchCurrentUser } from "./store/slices/authSlice";
 import Navbar from "./components/Layout/Navbar";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
-// import PostList from "./components/Posts/PostList"
 import CreatePost from "./components/Posts/CreatePost";
-// import EditPost from "./components/Posts/EditPost"
 import PostDetail from "./components/Posts/PostDetail";
-// import UserManagement from "./components/Admin/UserManagement"
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
-// import AdminRoute from "./components/Auth/AdminRoute"
 import ToastContainer from "./components/ToastContainer";
 import PostList from "./components/Posts/PostList";
 import EditPost from "./components/Posts/EditPost";
