@@ -32,9 +32,14 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post, currentUser, onDelete, isDeleting = false }) => {
   const isOwner = currentUser?.username === post.author.username || false
-  const isAdmin = currentUser?.role === "ADMIN"
+  const isAdmin = currentUser?.role === "ROLE_ADMIN"
   const canEdit = isOwner || isAdmin
   const canDelete = isOwner || isAdmin
+
+  console.log("Current user:", currentUser);
+console.log("Post author:", post.author);
+console.log("isOwner:", isOwner);
+console.log("isAdmin:", isAdmin);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("vi-VN", {

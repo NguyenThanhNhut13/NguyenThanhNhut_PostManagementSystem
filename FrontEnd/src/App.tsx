@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "./store/store";
-import { checkAuthStatus } from "./store/slices/authSlice";
+import { checkAuthStatus, fetchCurrentUser } from "./store/slices/authSlice";
 import Navbar from "./components/Layout/Navbar";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/Auth/ProtectedRoute";
 // import AdminRoute from "./components/Auth/AdminRoute"
 import ToastContainer from "./components/ToastContainer";
 import PostList from "./components/Posts/PostList";
+import EditPost from "./components/Posts/EditPost";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,14 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuthStatus() as any);
+  }, [dispatch]);
+
+  useEffect(() => {
+    // Kiểm tra xem có token không
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(fetchCurrentUser() as any);
+    }
   }, [dispatch]);
 
   if (loading) {
@@ -79,7 +88,7 @@ function App() {
             }
           />
 
-          {/* <Route
+          <Route
             path="/posts/:id/edit"
             element={
               <ProtectedRoute>
@@ -88,14 +97,14 @@ function App() {
             }
           />
 
-          <Route
+          {/* <Route
             path="/admin/users"
             element={
               <AdminRoute>
                 <UserManagement />
               </AdminRoute>
             }
-          /> */}
+          />  */}
 
           <Route path="/" element={<Navigate to="/posts" />} />
         </Routes>
