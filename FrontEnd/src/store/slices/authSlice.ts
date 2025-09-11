@@ -40,7 +40,6 @@ export const login = createAsyncThunk<
       token: data.data.jwt,
     };
   } catch (err: any) {
-    // Nếu backend trả về lỗi dạng response.data.message
     if (err.response && err.response.data) {
       return rejectWithValue(err.response.data);
     }
@@ -57,10 +56,18 @@ export const register = createAsyncThunk<
     lastName: string;
     gender: string;
     email: string;
+  },
+  { rejectValue: { code: string; message: string } }
+>("auth/register", async (userData, { rejectWithValue }) => {
+  try {
+    const response = await authAPI.register(userData);
+    return response.data as { user: User };
+  } catch (err: any) {
+    if (err.response && err.response.data) {
+      return rejectWithValue(err.response.data);
+    }
+    return rejectWithValue({ code: "UNKNOWN", message: "Đăng ký thất bại!" });
   }
->("auth/register", async (userData) => {
-  const response = await authAPI.register(userData);
-  return response.data as { user: User };
 });
 
 export const checkAuthStatus = createAsyncThunk<{ token: string }, void>(
@@ -119,7 +126,7 @@ const authSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Registration failed";
+        state.error = action.payload?.message || action.error.message || "Đăng ký thất bại!";
       })
       .addCase(checkAuthStatus.fulfilled, (state, action) => {
         state.isAuthenticated = true;

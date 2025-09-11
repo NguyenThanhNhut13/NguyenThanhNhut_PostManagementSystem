@@ -324,9 +324,9 @@ const Register: React.FC = () => {
                   required
                 >
                   <option value="">Chọn giới tính</option>
-                  <option value="MALE">Nam</option>
-                  <option value="FEMALE">Nữ</option>
-                  <option value="OTHER">Khác</option>
+                  <option value="M">Nam</option>
+                  <option value="F">Nữ</option>
+                  <option value="O">Khác</option>
                 </select>
                 {touched.gender && formErrors.gender && (
                   <div className="invalid-feedback">
