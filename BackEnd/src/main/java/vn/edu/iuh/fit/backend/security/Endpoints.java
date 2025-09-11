@@ -30,17 +30,21 @@ public class Endpoints {
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
-            "/users/register",
-            "/users/login",
+            "/api/auth/register",
+            "/api/auth/login",
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
-            "/users",
-            "/users/**",
+            "/api/users",
+            "/api/users/**",
     };
 
-    public static final String[] ADMIN_POST_ENDPOINTS = {
-            
+    public static final String[] ADMIN_DELETE_ENDPOINTS = {
+            "/api/users/**"
+    };
+
+    public static final String[] USER_GET_ENDPOINTS = {
+            "/api/users/me"
     };
 }
 
