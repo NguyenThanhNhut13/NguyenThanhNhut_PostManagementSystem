@@ -11,7 +11,7 @@ import Register from "./components/Auth/Register"
 // import PostList from "./components/Posts/PostList"
 // import CreatePost from "./components/Posts/CreatePost"
 // import EditPost from "./components/Posts/EditPost"
-// import PostDetail from "./components/Posts/PostDetail"
+import PostDetail from "./components/Posts/PostDetail"
 // import UserManagement from "./components/Admin/UserManagement"
 import ProtectedRoute from "./components/Auth/ProtectedRoute"
 // import AdminRoute from "./components/Auth/AdminRoute"
@@ -60,7 +60,7 @@ function App() {
                 <CreatePost />
               </ProtectedRoute>
             }
-          />
+          /> */}
 
           <Route
             path="/posts/:id"
@@ -71,7 +71,7 @@ function App() {
             }
           />
 
-          <Route
+          {/* <Route
             path="/posts/:id/edit"
             element={
               <ProtectedRoute>

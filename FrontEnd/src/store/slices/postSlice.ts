@@ -63,7 +63,8 @@ export const fetchPosts = createAsyncThunk(
 
 export const fetchPostById = createAsyncThunk("posts/fetchPostById", async (id: number) => {
   const response = await postAPI.getPostById(id)
-  return response.data
+  const result = (response.data as { success: boolean; message: string; data: Post })
+  return result.data
 })
 
 export const createPost = createAsyncThunk("posts/createPost", async (postData: { title: string; content: string }) => {
