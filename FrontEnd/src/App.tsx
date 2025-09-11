@@ -7,7 +7,7 @@ import type { RootState } from "./store/store"
 import { checkAuthStatus } from "./store/slices/authSlice"
 // import Navbar from "./components/Layout/Navbar"
 import Login from "./components/Auth/Login"
-// import Register from "./components/Auth/Register"
+import Register from "./components/Auth/Register"
 // import PostList from "./components/Posts/PostList"
 // import CreatePost from "./components/Posts/CreatePost"
 // import EditPost from "./components/Posts/EditPost"
@@ -41,7 +41,7 @@ function App() {
       <div className="container mt-4">
         <Routes>
           <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/posts" />} />
-          {/* <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/posts" />} /> */}
+          <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/posts" />} />
 
           {/* <Route
             path="/posts"

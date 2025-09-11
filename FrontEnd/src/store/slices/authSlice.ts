@@ -34,7 +34,11 @@ export const login = createAsyncThunk<
 >("auth/login", async (credentials, { rejectWithValue }) => {
   try {
     const response = await authAPI.login(credentials);
-    return response.data as { user: User; token: string };
+    const data = response.data as { user: User; data: { jwt: string } };
+    return {
+      user: data.user,
+      token: data.data.jwt,
+    };
   } catch (err: any) {
     // Nếu backend trả về lỗi dạng response.data.message
     if (err.response && err.response.data) {
