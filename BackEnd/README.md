@@ -11,7 +11,7 @@ Bạn có thể test các API trực tiếp trên môi trường deploy bằng S
 https://nguyenthanhnhut-postmanagementsystem.onrender.com/swagger-ui/index.html
 
 **Lưu ý:**
-- Render bản miễn phí có thể giới hạn số lượng request, tốc độ hoặc thời gian hoạt động của server. Nếu gặp lỗi hoặc không truy cập được, hãy thử lại sau hoặc nâng cấp gói dịch vụ.
+- Render bản miễn phí có thể giới hạn số lượng request, tốc độ hoặc thời gian hoạt động của server. Nếu gặp lỗi hoặc không truy cập được, hãy thử lại sau khoảng 5-15 phút để render load lại.
 
 ## Công nghệ
 
@@ -38,45 +38,45 @@ https://nguyenthanhnhut-postmanagementsystem.onrender.com/swagger-ui/index.html
   DB_USER=root
   DB_PASS=yourpassword
   DB_NAME=post_management
+    ```
+
+  ### 2. Cài đặt dependencies
+
+  ```bash
+  mvn clean install
   ```
 
-### 2. Cài đặt dependencies
+  ### 3. Khởi động server
 
-```bash
-mvn clean install
-```
+  ```bash
+  mvn spring-boot:run
+  # hoặc
+  java -jar target/BackEnd-0.0.1-SNAPSHOT.jar
+  ```
 
-### 3. Khởi động server
+  - Mặc định chạy ở http://localhost:8080
 
-```bash
-mvn spring-boot:run
-# hoặc
-java -jar target/BackEnd-0.0.1-SNAPSHOT.jar
-```
+  ### 4. Migrate schema & dữ liệu mẫu
 
-- Mặc định chạy ở http://localhost:8080
+  - Khi chạy lần đầu, Spring Boot sẽ tự động tạo bảng (nếu cấu hình JPA/Hibernate đúng).
+  - Nếu cần dữ liệu mẫu, có thể thêm vào file `data.sql` hoặc logic khởi tạo trong code.
 
-### 4. Migrate schema & dữ liệu mẫu
+  ## Các chức năng API
 
-- Khi chạy lần đầu, Spring Boot sẽ tự động tạo bảng (nếu cấu hình JPA/Hibernate đúng)
-- Nếu cần dữ liệu mẫu, có thể thêm vào file `data.sql` hoặc logic khởi tạo trong code
+  - Đăng ký, đăng nhập (JWT)
+  - CRUD bài viết (chỉ tác giả mới được sửa/xóa bài viết của mình hoặc admin)
+  - Bảo vệ API bằng JWT (Bearer token)
+  - Xử lý lỗi rõ ràng, trả về mã HTTP phù hợp
 
-## Các chức năng API
+  ## Kiểm thử
 
-- Đăng ký, đăng nhập (JWT)
-- CRUD bài viết (chỉ tác giả mới được sửa/xóa bài viết của mình)
-- Bảo vệ API bằng JWT (Bearer token)
-- Xử lý lỗi rõ ràng, trả về mã HTTP phù hợp
+  - Đăng ký tài khoản qua API hoặc FE
+  - Đăng nhập, lấy JWT
+  - Tạo/sửa/xóa bài viết qua API (dùng JWT ở header Authorization)
+  - Xem chi tiết bài viết
 
-## Kiểm thử
+  ## Lưu ý
 
-- Đăng ký tài khoản qua API hoặc FE
-- Đăng nhập, lấy JWT
-- Tạo/sửa/xóa bài viết qua API (dùng JWT ở header Authorization)
-- Xem chi tiết bài viết
-
-## Lưu ý
-
-- Nếu dùng H2, không cần cài MySQL, chỉ cần cấu hình lại trong `.env` hoặc `application.yml`
-- Đảm bảo cấu hình CORS cho phép FE truy cập API
-- Mật khẩu lưu ở DB đã được mã hóa (BCrypt)
+  - Nếu dùng H2, không cần cài MySQL, chỉ cần cấu hình lại trong `.env` hoặc `application.yml`
+  - Đảm bảo cấu hình CORS cho phép FE truy cập API
+  - Mật khẩu lưu ở DB đã được mã hóa (BCrypt)
