@@ -117,7 +117,7 @@ This means you don't need to modify the API base URL for local development. All 
 
 ### Registration and Login
 
-1. Access the application at `http://localhost:5173`
+1. Access the application at `http://localhost:3000`
 2. Click "Register" to create a new account
 3. Fill in the required information:
    - Username (required, unique)
