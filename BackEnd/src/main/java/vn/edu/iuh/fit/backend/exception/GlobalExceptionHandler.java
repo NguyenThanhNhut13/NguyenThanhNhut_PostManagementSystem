@@ -22,12 +22,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Hidden
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotVerifiedException.class)
-    public ResponseEntity<ErrorResponse> userNotVerifiedException(UserNotVerifiedException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponse("USER_NOT_VERIFIED", ex.getMessage()));
-    }
-
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> badRequestException(BadRequestException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -42,7 +36,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidCredentialException.class)
     public ResponseEntity<ErrorResponse> handleInvalidCredentials(InvalidCredentialException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("INVALID_CREDENTIALS", ex.getMessage()));
     }
 
@@ -72,7 +66,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFound(AccessDeniedException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse("ACCESS_DENIED", ex.getMessage()));
     }
 
