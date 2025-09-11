@@ -4,6 +4,15 @@
 
 Backend API server cho hệ thống quản lý bài viết, xây dựng bằng Java Spring Boot.
 
+## Test API trên môi trường deploy (Render)
+
+Bạn có thể test các API trực tiếp trên môi trường deploy bằng Swagger tại địa chỉ:
+
+https://nguyenthanhnhut-postmanagementsystem.onrender.com/swagger-ui/index.html
+
+**Lưu ý:**
+- Render bản miễn phí có thể giới hạn số lượng request, tốc độ hoặc thời gian hoạt động của server. Nếu gặp lỗi hoặc không truy cập được, hãy thử lại sau hoặc nâng cấp gói dịch vụ.
+
 ## Công nghệ
 
 - Java 17+, Spring Boot, Spring Security, JPA/Hibernate, JWT, Maven
