@@ -13,8 +13,12 @@ package vn.edu.iuh.fit.backend.service;
  */
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import vn.edu.iuh.fit.backend.dto.response.UserResponse;
 import vn.edu.iuh.fit.backend.model.User;
+
+import java.util.List;
 
 public interface UserService extends UserDetailsService {
     User findByUsername(String username);
+    List<UserResponse> getAllUsers();
 }

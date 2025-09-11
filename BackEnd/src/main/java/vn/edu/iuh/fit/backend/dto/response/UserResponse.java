@@ -14,10 +14,15 @@ package vn.edu.iuh.fit.backend.dto.response;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class UserResponse {
     private Long id;
     private String username;
     private String firstName;
     private String lastName;
+    private char gender;
+    private String email;
+    private String role;
 }
