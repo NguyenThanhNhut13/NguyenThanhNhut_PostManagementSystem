@@ -72,10 +72,10 @@ export const postAPI = {
 }
 
 export const userAPI = {
-  getAllUsers: () => api.get("/admin/users"),
+  getAllUsers: () => api.get("/users"),
   getCurrentUser: () => api.get("/users/me"),
-  deleteUser: (id: number) => api.delete(`/admin/users/${id}`),
-  updateUserRole: (id: number, role: string) => api.put(`/admin/users/${id}/role`, { role }),
+  deleteUser: (id: number) => api.delete(`/users/${id}`),
+  updateUserRole: (id: number, role: string) => api.put(`/users/${id}/role`, { role }),
 }
 
 export default api

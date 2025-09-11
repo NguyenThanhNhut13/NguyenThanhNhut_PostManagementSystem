@@ -18,6 +18,8 @@ import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import ToastContainer from "./components/ToastContainer";
 import PostList from "./components/Posts/PostList";
 import EditPost from "./components/Posts/EditPost";
+import UserManagement from "./Admin/UserManagement";
+import AdminRoute from "./components/Auth/AdminRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -97,14 +99,14 @@ function App() {
             }
           />
 
-          {/* <Route
+          <Route
             path="/admin/users"
             element={
               <AdminRoute>
                 <UserManagement />
               </AdminRoute>
             }
-          />  */}
+          /> 
 
           <Route path="/" element={<Navigate to="/posts" />} />
         </Routes>

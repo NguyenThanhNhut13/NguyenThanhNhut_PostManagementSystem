@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { postAPI } from "../../servies/api";
+import { postAPI } from "../../services/api";
 
 export interface Post {
   id: number;
