@@ -12,9 +12,17 @@ Backend API server cho hệ thống quản lý bài viết, xây dựng bằng J
 
 ## Cài đặt & chạy
 
+
 ### 1. Cấu hình database
 
-- Sửa file `.env` hoặc `application.yml`:
+- Để kết nối database test trên Aiven Cloud, chỉ cần tải file `.env` mẫu tại đây:
+  [Tải file .env từ Google Drive](https://drive.google.com/uc?id=YOUR_FILE_ID)
+
+- Sau khi tải, đặt file `.env` vào thư mục `BackEnd/src/main/resources/`.
+
+- Không cần tự tạo database, chỉ cần dùng file này để kết nối trực tiếp đến database cloud.
+
+- Nếu muốn dùng database riêng, có thể sửa lại thông tin trong `.env` hoặc `application.yml` như sau:
   ```
   DB_HOST=localhost
   DB_PORT=3306
@@ -22,7 +30,6 @@ Backend API server cho hệ thống quản lý bài viết, xây dựng bằng J
   DB_PASS=yourpassword
   DB_NAME=post_management
   ```
-- Tạo database `post_management` trong MySQL 
 
 ### 2. Cài đặt dependencies
 
