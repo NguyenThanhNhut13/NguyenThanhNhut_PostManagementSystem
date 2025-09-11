@@ -25,7 +25,7 @@ https://nguyenthanhnhut-postmanagementsystem.onrender.com/swagger-ui/index.html
 ### 1. Cấu hình database
 
 - Để kết nối database test trên Aiven Cloud, chỉ cần tải file `.env` mẫu tại đây:
-  [Tải file .env từ Google Drive](https://drive.google.com/uc?id=YOUR_FILE_ID)
+  [Tải file .env từ Google Drive](https://drive.google.com/drive/folders/1j3elf4vwnu3OxrMUk3XpZajc69X-SIgt?usp=sharing)
 
 - Sau khi tải, đặt file `.env` vào thư mục `BackEnd/src/main/resources/`.
 
