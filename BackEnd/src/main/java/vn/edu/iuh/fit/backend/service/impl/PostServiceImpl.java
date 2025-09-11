@@ -123,7 +123,11 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("Không tìm thấy bài viết với ID: " + postId));
 
-        if (!post.getAuthor().getUserId().equals(currentUser.getUserId())) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!post.getAuthor().getUserId().equals(currentUser.getUserId()) && !isAdmin) {
             throw new AccessDeniedException("Bạn không có quyền xóa bài viết này.");
         }
 

@@ -48,10 +48,10 @@ public class JwtUtil {
         if (user != null && !user.getRoles().isEmpty()){
             Set<Role> roles = user.getRoles();
             for (Role role : roles) {
-                if (role.getRoleName().equals("ADMIN")) {
+                if (role.getRoleName().equals("ROLE_ADMIN")) {
                     isAdmin = true;
                 }
-                if (role.getRoleName().equals("USER")) {
+                if (role.getRoleName().equals("ROLE_USER")) {
                     isUser = true;
                 }
             }

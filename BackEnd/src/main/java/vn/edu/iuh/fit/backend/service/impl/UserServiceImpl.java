@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User not found")
+                () -> new UserNotFoundException("User not found")
         );
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), rolesToAuthorities(user.getRoles()));
@@ -106,8 +106,6 @@ public class UserServiceImpl implements UserService {
         ));
     }
 
-
-
     //    public UserResponse updateUser(Long id, UserRequest userRequest) {
 //        checkAdminRole();
 //        User user = userRepository.findById(id)
@@ -129,11 +127,6 @@ public class UserServiceImpl implements UserService {
 //        userRepository.deleteById(id);
 //    }
 //
-
-//
-//    public Optional<UserResponse> getUserByUsername(String username) {
-//        return userRepository.findByUsername(username).map(this::convertToDto);
-//    }
 
     @Override
     public UserResponse getCurrentUser() {

@@ -14,10 +14,8 @@ package vn.edu.iuh.fit.backend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import vn.edu.iuh.fit.backend.dto.request.UpdateUserRequest;
 import vn.edu.iuh.fit.backend.dto.response.BaseResponse;
 import vn.edu.iuh.fit.backend.dto.response.UserResponse;
 import vn.edu.iuh.fit.backend.service.UserService;
@@ -56,5 +54,13 @@ public class UserController {
                 new BaseResponse<>(true, "Lấy thông tin người dùng thành công!", response)
         );
     }
+
+//    @PutMapping("/{id}")
+//    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest) {
+//        UserResponse updatedUser = userService.updateUser(id, userRequest);
+//        return ResponseEntity.ok(
+//                new BaseResponse<>(true, "Cập nhật thông tin người dùng thành công!", updatedUser)
+//        );
+//    }
 
 }
