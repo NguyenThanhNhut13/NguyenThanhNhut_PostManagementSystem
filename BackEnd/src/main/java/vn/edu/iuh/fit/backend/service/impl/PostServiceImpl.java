@@ -25,6 +25,7 @@ import vn.edu.iuh.fit.backend.dto.request.CreatePostRequest;
 import vn.edu.iuh.fit.backend.dto.request.UpdatePostRequest;
 import vn.edu.iuh.fit.backend.dto.response.PaginatedPostsResponse;
 import vn.edu.iuh.fit.backend.dto.response.PostResponse;
+import vn.edu.iuh.fit.backend.dto.response.UserResponse;
 import vn.edu.iuh.fit.backend.exception.AccessDeniedException;
 import vn.edu.iuh.fit.backend.exception.PostNotFoundException;
 import vn.edu.iuh.fit.backend.exception.UnauthorizedException;
@@ -134,10 +135,19 @@ public class PostServiceImpl implements PostService {
         dto.setId(post.getId());
         dto.setTitle(post.getTitle());
         dto.setContent(post.getContent());
-        dto.setAuthorUsername(post.getAuthor().getUsername());
+        dto.setAuthor(convertToUserResponse(post.getAuthor()));
         dto.setCreatedAt(post.getCreatedAt());
         dto.setUpdatedAt(post.getUpdatedAt());
         return dto;
+    }
+
+    private UserResponse convertToUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(userResponse.getId());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setFirstName(user.getFirstName());
+        userResponse.setLastName(user.getLastName());
+        return userResponse;
     }
 
     private User getCurrentUser() {
