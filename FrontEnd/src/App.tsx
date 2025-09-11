@@ -15,6 +15,7 @@ import Login from "./components/Auth/Login"
 // import UserManagement from "./components/Admin/UserManagement"
 // import ProtectedRoute from "./components/Auth/ProtectedRoute"
 // import AdminRoute from "./components/Auth/AdminRoute"
+import ToastContainer from "./components/ToastContainer"
 
 function App() {
   const dispatch = useDispatch()
@@ -90,6 +91,7 @@ function App() {
           <Route path="/" element={<Navigate to="/posts" />} />
         </Routes>
       </div>
+      <ToastContainer />
     </div>
   )
 }

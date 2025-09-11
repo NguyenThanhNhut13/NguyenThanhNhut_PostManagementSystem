@@ -29,10 +29,19 @@ const initialState: AuthState = {
 
 export const login = createAsyncThunk<
   { user: User; token: string },
-  { username: string; password: string }
->("auth/login", async (credentials) => {
-  const response = await authAPI.login(credentials);
-  return response.data as { user: User; token: string };
+  { username: string; password: string },
+  { rejectValue: { code: string; message: string } }
+>("auth/login", async (credentials, { rejectWithValue }) => {
+  try {
+    const response = await authAPI.login(credentials);
+    return response.data as { user: User; token: string };
+  } catch (err: any) {
+    // Nếu backend trả về lỗi dạng response.data.message
+    if (err.response && err.response.data) {
+      return rejectWithValue(err.response.data);
+    }
+    return rejectWithValue({ code: "UNKNOWN", message: "Đăng nhập thất bại!" });
+  }
 });
 
 export const register = createAsyncThunk<
@@ -92,7 +101,7 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Login failed";
+        state.error = action.payload?.message || action.error.message || "Login failed";
       })
       .addCase(register.pending, (state) => {
         state.loading = true;
