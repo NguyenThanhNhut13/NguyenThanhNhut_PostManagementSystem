@@ -121,12 +121,13 @@ public class UserServiceImpl implements UserService {
 //        User updatedUser = userRepository.save(user);
 //        return convertToDto(updatedUser);
 //    }
-//
-//    public void deleteUser(Long id) {
-//        checkAdminRole();
-//        userRepository.deleteById(id);
-//    }
-//
+
+    @Override
+    public void deleteUser(Long id) {
+        checkAdminRole();
+        userRepository.deleteById(id);
+    }
+
 
     @Override
     public UserResponse getCurrentUser() {

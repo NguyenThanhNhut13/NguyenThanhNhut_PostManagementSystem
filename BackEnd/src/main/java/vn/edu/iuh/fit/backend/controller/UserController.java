@@ -55,12 +55,12 @@ public class UserController {
         );
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest userRequest) {
-//        UserResponse updatedUser = userService.updateUser(id, userRequest);
-//        return ResponseEntity.ok(
-//                new BaseResponse<>(true, "Cập nhật thông tin người dùng thành công!", updatedUser)
-//        );
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok(
+                new BaseResponse<>(true, "Xóa người dùng thành công!", null)
+        );
+    }
 
 }
