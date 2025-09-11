@@ -31,6 +31,8 @@ const EditPost: React.FC = () => {
     content: false,
   })
 
+  const [submitting, setSubmitting] = useState(false)
+
   useEffect(() => {
     if (id) {
       dispatch(fetchPostById(Number.parseInt(id)) as any)
@@ -44,7 +46,18 @@ const EditPost: React.FC = () => {
   useEffect(() => {
     if (currentPost) {
       // Check if user can edit this post
-      const canEdit = user?.username === currentPost.author.username || user?.role === "ROLE_ADMIN"
+      const isOwner = user?.username === currentPost.author.username
+      const isAdmin = user?.role === "ROLE_ADMIN"
+      const canEdit = isOwner || isAdmin
+      
+      console.log("Edit permission check:", { 
+        currentUser: user, 
+        postAuthor: currentPost.author, 
+        isOwner, 
+        isAdmin, 
+        canEdit 
+      })
+      
       if (!canEdit) {
         dispatch(
           addToast({
@@ -143,22 +156,32 @@ const EditPost: React.FC = () => {
     })
 
     if (validateForm() && id) {
+      setSubmitting(true)
       try {
-        await dispatch(updatePost({ id: Number.parseInt(id), postData: formData }) as any).unwrap()
+        const result = await dispatch(updatePost({ id: Number.parseInt(id), postData: formData }) as any).unwrap()
+        console.log("Update result:", result)
+        
         dispatch(
           addToast({
             message: "Bài viết đã được cập nhật thành công!",
             type: "success",
           }),
         )
-        navigate(`/posts/${id}`)
+        
+        // Make sure we have the result before navigating
+        setTimeout(() => {
+          navigate(`/posts/${id}`)
+        }, 100)
       } catch (error: any) {
+        console.error("Error updating post:", error)
         dispatch(
           addToast({
             message: error.message || "Có lỗi xảy ra khi cập nhật bài viết",
             type: "error",
           }),
         )
+      } finally {
+        setSubmitting(false)
       }
     } else {
       dispatch(
@@ -259,8 +282,8 @@ const EditPost: React.FC = () => {
                   Hủy
                 </button>
 
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? (
+                <button type="submit" className="btn btn-primary" disabled={submitting || loading}>
+                  {submitting ? (
                     <>
                       <span className="spinner-border spinner-border-sm me-2" role="status"></span>
                       Đang cập nhật...

@@ -77,7 +77,11 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await userAPI.getCurrentUser();
-      const result = response.data as { success: boolean; message: string; data: User };
+      const result = response.data as {
+        success: boolean;
+        message: string;
+        data: User;
+      };
       return result.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);
@@ -128,7 +132,8 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || action.error.message || "Login failed";
+        state.error =
+          action.payload?.message || action.error.message || "Login failed";
       })
       .addCase(register.pending, (state) => {
         state.loading = true;
@@ -143,7 +148,10 @@ const authSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || action.error.message || "Đăng ký thất bại!";
+        state.error =
+          action.payload?.message ||
+          action.error.message ||
+          "Đăng ký thất bại!";
         state.registerSuccess = false;
       })
       .addCase(checkAuthStatus.fulfilled, (state, action) => {

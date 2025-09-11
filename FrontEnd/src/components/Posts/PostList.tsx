@@ -1,18 +1,24 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-import type { RootState } from "../../store/store"
-import { fetchPosts, deletePost, type Post } from "../../store/slices/postSlice"
-import { addToast } from "../../store/slices/toastSlice"
-import PostCard from "./PostCard"
+import type React from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import type { RootState } from "../../store/store";
+import {
+  fetchPosts,
+  deletePost,
+  type Post,
+} from "../../store/slices/postSlice";
+import { addToast } from "../../store/slices/toastSlice";
+import PostCard from "./PostCard";
 
 const PostList: React.FC = () => {
-  const dispatch = useDispatch()
-  const { posts, loading, error, pagination } = useSelector((state: RootState) => state.posts)
-  const { user } = useSelector((state: RootState) => state.auth)
+  const dispatch = useDispatch();
+  const { posts, loading, error, pagination } = useSelector(
+    (state: RootState) => state.posts
+  );
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const [filters, setFilters] = useState({
     page: 0,
@@ -20,73 +26,80 @@ const PostList: React.FC = () => {
     sortBy: "createdAt",
     direction: "desc",
     myPosts: false,
-  })
+  });
 
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isDeleting, setIsDeleting] = useState<number | null>(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isDeleting, setIsDeleting] = useState<number | null>(null);
 
   useEffect(() => {
-  console.log('PostList useEffect filters:', filters)
-  dispatch(fetchPosts(filters) as any)
-  console.log('Dispatched fetchPosts')
-  }, [dispatch, filters])
+    dispatch(fetchPosts(filters) as any);
+  }, [dispatch, filters]);
 
   const handleFilterChange = (newFilters: Partial<typeof filters>) => {
-  setFilters({ ...filters, ...newFilters, page: 0 })
-  console.log('Filter changed:', { ...filters, ...newFilters, page: 0 })
-  }
+    setFilters({ ...filters, ...newFilters, page: 0 });
+  };
 
   const handlePageChange = (page: number) => {
-    setFilters({ ...filters, page })
-  }
+    setFilters({ ...filters, page });
+  };
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // In a real app, this would be sent to the API
     dispatch(
       addToast({
-        message: "Tính năng tìm kiếm sẽ được triển khai trong phiên bản tiếp theo",
+        message:
+          "Tính năng tìm kiếm sẽ được triển khai trong phiên bản tiếp theo",
         type: "info",
-      }),
-    )
-  }
+      })
+    );
+  };
 
   const handleDeletePost = async (id: number) => {
-    const confirmed = window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")
+    const confirmed = window.confirm(
+      "Bạn có chắc chắn muốn xóa bài viết này không?"
+    );
     if (confirmed) {
-      setIsDeleting(id)
+      setIsDeleting(id);
       try {
-        await dispatch(deletePost(id) as any).unwrap()
+        await dispatch(deletePost(id) as any).unwrap();
         dispatch(
           addToast({
             message: "Bài viết đã được xóa thành công",
             type: "success",
-          }),
-        )
+          })
+        );
       } catch (error: any) {
         dispatch(
           addToast({
             message: error.message || "Có lỗi xảy ra khi xóa bài viết",
             type: "error",
-          }),
-        )
+          })
+        );
       } finally {
-        setIsDeleting(null)
+        setIsDeleting(null);
       }
     }
-  }
+  };
 
   if (loading && posts.length === 0) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "400px" }}
+      >
         <div className="text-center">
-          <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem" }}>
+          <div
+            className="spinner-border text-primary"
+            role="status"
+            style={{ width: "3rem", height: "3rem" }}
+          >
             <span className="visually-hidden">Đang tải...</span>
           </div>
           <p className="mt-3 text-muted">Đang tải danh sách bài viết...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -95,13 +108,16 @@ const PostList: React.FC = () => {
         <i className="fas fa-exclamation-triangle me-2"></i>
         <strong>Lỗi:</strong> {error}
         <div className="mt-2">
-          <button className="btn btn-outline-danger btn-sm" onClick={() => dispatch(fetchPosts(filters) as any)}>
+          <button
+            className="btn btn-outline-danger btn-sm"
+            onClick={() => dispatch(fetchPosts(filters) as any)}
+          >
             <i className="fas fa-redo me-1"></i>
             Thử lại
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -111,7 +127,9 @@ const PostList: React.FC = () => {
           <i className="fas fa-list me-2"></i>
           {filters.myPosts ? "Bài Viết Của Tôi" : "Tất Cả Bài Viết"}
           {pagination.totalElements !== undefined && (
-            <small className="text-muted ms-2">({pagination.totalElements} bài viết)</small>
+            <small className="text-muted ms-2">
+              ({pagination.totalElements} bài viết)
+            </small>
           )}
         </h1>
         <Link to="/posts/create" className="btn btn-primary">
@@ -152,7 +170,9 @@ const PostList: React.FC = () => {
                   type="checkbox"
                   id="myPosts"
                   checked={filters.myPosts}
-                  onChange={(e) => handleFilterChange({ myPosts: e.target.checked })}
+                  onChange={(e) =>
+                    handleFilterChange({ myPosts: e.target.checked })
+                  }
                 />
                 <label className="form-check-label" htmlFor="myPosts">
                   Chỉ bài viết của tôi
@@ -186,7 +206,9 @@ const PostList: React.FC = () => {
                 className="form-select"
                 id="direction"
                 value={filters.direction}
-                onChange={(e) => handleFilterChange({ direction: e.target.value })}
+                onChange={(e) =>
+                  handleFilterChange({ direction: e.target.value })
+                }
               >
                 <option value="desc">Mới nhất</option>
                 <option value="asc">Cũ nhất</option>
@@ -202,7 +224,9 @@ const PostList: React.FC = () => {
                 className="form-select"
                 id="size"
                 value={filters.size}
-                onChange={(e) => handleFilterChange({ size: Number.parseInt(e.target.value) })}
+                onChange={(e) =>
+                  handleFilterChange({ size: Number.parseInt(e.target.value) })
+                }
               >
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -232,7 +256,12 @@ const PostList: React.FC = () => {
       <div className="row">
         {posts.map((post: Post) => (
           <div key={post.id} className="col-md-6 col-lg-4 mb-4">
-            <PostCard post={post} currentUser={user} onDelete={handleDeletePost} isDeleting={isDeleting === post.id} />
+            <PostCard
+              post={post}
+              currentUser={user}
+              onDelete={handleDeletePost}
+              isDeleting={isDeleting === post.id}
+            />
           </div>
         ))}
       </div>
@@ -241,7 +270,11 @@ const PostList: React.FC = () => {
       {pagination.totalPages > 1 && (
         <nav aria-label="Phân trang bài viết" className="mt-4">
           <ul className="pagination justify-content-center">
-            <li className={`page-item ${pagination.currentPage === 0 ? "disabled" : ""}`}>
+            <li
+              className={`page-item ${
+                pagination.currentPage === 0 ? "disabled" : ""
+              }`}
+            >
               <button
                 className="page-link"
                 onClick={() => handlePageChange(pagination.currentPage - 1)}
@@ -270,11 +303,13 @@ const PostList: React.FC = () => {
                 } else if (currentPage >= totalPages - 4) {
                   pages.push(0);
                   pages.push(-1);
-                  for (let i = totalPages - 5; i < totalPages; i++) pages.push(i);
+                  for (let i = totalPages - 5; i < totalPages; i++)
+                    pages.push(i);
                 } else {
                   pages.push(0);
                   pages.push(-1);
-                  for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+                  for (let i = currentPage - 1; i <= currentPage + 1; i++)
+                    pages.push(i);
                   pages.push(-2);
                   pages.push(totalPages - 1);
                 }
@@ -283,14 +318,26 @@ const PostList: React.FC = () => {
               return pages.map((page, index) => {
                 if (page === -1 || page === -2) {
                   return (
-                    <li key={`ellipsis-${index}`} className="page-item disabled">
+                    <li
+                      key={`ellipsis-${index}`}
+                      className="page-item disabled"
+                    >
                       <span className="page-link">...</span>
                     </li>
                   );
                 }
                 return (
-                  <li key={page} className={`page-item ${page === pagination.currentPage ? "active" : ""}`}>
-                    <button className="page-link" onClick={() => handlePageChange(page)} disabled={loading}>
+                  <li
+                    key={page}
+                    className={`page-item ${
+                      page === pagination.currentPage ? "active" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => handlePageChange(page)}
+                      disabled={loading}
+                    >
                       {page + 1}
                     </button>
                   </li>
@@ -298,11 +345,20 @@ const PostList: React.FC = () => {
               });
             })()}
 
-            <li className={`page-item ${pagination.currentPage === pagination.totalPages - 1 ? "disabled" : ""}`}>
+            <li
+              className={`page-item ${
+                pagination.currentPage === pagination.totalPages - 1
+                  ? "disabled"
+                  : ""
+              }`}
+            >
               <button
                 className="page-link"
                 onClick={() => handlePageChange(pagination.currentPage + 1)}
-                disabled={pagination.currentPage === pagination.totalPages - 1 || loading}
+                disabled={
+                  pagination.currentPage === pagination.totalPages - 1 ||
+                  loading
+                }
                 title="Trang sau"
               >
                 <i className="fas fa-chevron-right"></i>
@@ -312,12 +368,14 @@ const PostList: React.FC = () => {
 
           <div className="text-center text-muted mt-2">
             Trang {pagination.currentPage + 1} / {pagination.totalPages}
-            {pagination.totalElements !== undefined && <span> - Tổng cộng {pagination.totalElements} bài viết</span>}
+            {pagination.totalElements !== undefined && (
+              <span> - Tổng cộng {pagination.totalElements} bài viết</span>
+            )}
           </div>
         </nav>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default PostList
+export default PostList;
