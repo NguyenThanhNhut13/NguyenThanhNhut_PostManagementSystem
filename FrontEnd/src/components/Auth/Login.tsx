@@ -136,6 +136,14 @@ const Login: React.FC = () => {
               Đăng Nhập
             </h2>
 
+            <div className="alert alert-info">
+              <strong>Thông tin đăng nhập thử nghiệm:</strong>
+              <ul>
+                <li>Admin: admin / admin123</li>
+                <li>Người dùng: user / user123</li>
+              </ul>
+            </div>
+
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="username" className="form-label">
