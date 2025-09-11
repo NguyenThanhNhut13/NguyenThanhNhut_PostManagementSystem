@@ -13,9 +13,10 @@ import Register from "./components/Auth/Register"
 // import EditPost from "./components/Posts/EditPost"
 // import PostDetail from "./components/Posts/PostDetail"
 // import UserManagement from "./components/Admin/UserManagement"
-// import ProtectedRoute from "./components/Auth/ProtectedRoute"
+import ProtectedRoute from "./components/Auth/ProtectedRoute"
 // import AdminRoute from "./components/Auth/AdminRoute"
 import ToastContainer from "./components/ToastContainer"
+import PostList from "./components/Posts/PostList"
 
 function App() {
   const dispatch = useDispatch()
@@ -43,7 +44,7 @@ function App() {
           <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/posts" />} />
           <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/posts" />} />
 
-          {/* <Route
+          <Route
             path="/posts"
             element={
               <ProtectedRoute>
@@ -52,7 +53,7 @@ function App() {
             }
           />
 
-          <Route
+          {/* <Route
             path="/posts/create"
             element={
               <ProtectedRoute>

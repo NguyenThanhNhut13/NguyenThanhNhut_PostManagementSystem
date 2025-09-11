@@ -41,19 +41,20 @@ const Register: React.FC = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { loading, error, isAuthenticated } = useSelector((state: RootState) => state.auth)
+  const { loading, error, isAuthenticated, registerSuccess } = useSelector((state: RootState) => state.auth)
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/posts")
+    if (registerSuccess) {
       dispatch(
         addToast({
-          message: "Đăng ký thành công! Chào mừng bạn đến với hệ thống.",
+          message: "Đăng ký thành công! Hãy đăng nhập vào hệ thống.",
           type: "success",
-        }),
-      )
+        })
+      );
+      // navigate("/posts");
+      dispatch(clearError()); // reset trạng thái sau khi thông báo
     }
-  }, [isAuthenticated, navigate, dispatch])
+  }, [registerSuccess, dispatch]);
 
   useEffect(() => {
     dispatch(clearError())

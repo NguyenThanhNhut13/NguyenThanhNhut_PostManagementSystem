@@ -17,6 +17,7 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  registerSuccess: boolean;
 }
 
 const initialState: AuthState = {
@@ -25,6 +26,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  registerSuccess: false,
 };
 
 export const login = createAsyncThunk<
@@ -95,6 +97,7 @@ const authSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+      state.registerSuccess = false;
     },
   },
   extraReducers: (builder) => {
@@ -123,10 +126,12 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = null;
         state.isAuthenticated = false;
+        state.registerSuccess = true;
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || action.error.message || "Đăng ký thất bại!";
+        state.registerSuccess = false;
       })
       .addCase(checkAuthStatus.fulfilled, (state, action) => {
         state.isAuthenticated = true;
