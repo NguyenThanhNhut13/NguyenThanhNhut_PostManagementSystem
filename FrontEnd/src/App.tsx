@@ -9,7 +9,7 @@ import Navbar from "./components/Layout/Navbar"
 import Login from "./components/Auth/Login"
 import Register from "./components/Auth/Register"
 // import PostList from "./components/Posts/PostList"
-// import CreatePost from "./components/Posts/CreatePost"
+import CreatePost from "./components/Posts/CreatePost"
 // import EditPost from "./components/Posts/EditPost"
 import PostDetail from "./components/Posts/PostDetail"
 // import UserManagement from "./components/Admin/UserManagement"
@@ -53,14 +53,14 @@ function App() {
             }
           />
 
-          {/* <Route
+          <Route
             path="/posts/create"
             element={
               <ProtectedRoute>
                 <CreatePost />
               </ProtectedRoute>
             }
-          /> */}
+          />
 
           <Route
             path="/posts/:id"

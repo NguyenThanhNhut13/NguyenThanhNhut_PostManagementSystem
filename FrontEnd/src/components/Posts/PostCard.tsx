@@ -31,7 +31,7 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, currentUser, onDelete, isDeleting = false }) => {
-  const isOwner = currentUser?.id === post.author.id
+  const isOwner = currentUser?.username === post.author.username || false
   const isAdmin = currentUser?.role === "ADMIN"
   const canEdit = isOwner || isAdmin
   const canDelete = isOwner || isAdmin
@@ -44,11 +44,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, currentUser, onDelete, isDele
       hour: "2-digit",
       minute: "2-digit",
     })
-  }
-
-  const truncateContent = (content: string, maxLength = 150) => {
-    if (content.length <= maxLength) return content
-    return content.substring(0, maxLength) + "..."
   }
 
   const getTimeAgo = (dateString: string) => {
@@ -81,8 +76,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, currentUser, onDelete, isDele
         <h5 className="card-title text-truncate" title={post.title}>
           {post.title}
         </h5>
-        <p className="card-text flex-grow-1 text-muted">{truncateContent(post.content)}</p>
-
         <div className="card-text">
           <div className="d-flex align-items-center mb-2">
             <div
