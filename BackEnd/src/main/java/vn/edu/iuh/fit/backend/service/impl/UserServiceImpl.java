@@ -40,12 +40,10 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -105,22 +103,6 @@ public class UserServiceImpl implements UserService {
                 () -> new UserNotFoundException("Không tìm thấy người dùng với id: "+ id)
         ));
     }
-
-    //    public UserResponse updateUser(Long id, UserRequest userRequest) {
-//        checkAdminRole();
-//        User user = userRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy người dùng với ID: " + id));
-//
-//        user.setUsername(userRequest.getUsername());
-//        user.setEmail(userRequest.getEmail());
-//        user.setFirstName(userRequest.getFirstName());
-//        user.setLastName(userRequest.getLastName());
-//        user.setGender(userRequest.getGender());
-//        user.setRole(userRequest.getRole());
-//
-//        User updatedUser = userRepository.save(user);
-//        return convertToDto(updatedUser);
-//    }
 
     @Override
     public void deleteUser(Long id) {
