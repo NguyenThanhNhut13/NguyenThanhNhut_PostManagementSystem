@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
                     Create Post
                   </Link>
                 </li>
-                {user?.role === "ADMIN" && (
+                {user?.role === "ROLE_ADMIN" && (
                   <li className="nav-item">
                     <Link className="nav-link" to="/admin/users">
                       <i className="fas fa-users me-1"></i>

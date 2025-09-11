@@ -1,30 +1,32 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { Routes, Route, Navigate } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "./store/store"
-import { checkAuthStatus } from "./store/slices/authSlice"
-import Navbar from "./components/Layout/Navbar"
-import Login from "./components/Auth/Login"
-import Register from "./components/Auth/Register"
+import { useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "./store/store";
+import { checkAuthStatus } from "./store/slices/authSlice";
+import Navbar from "./components/Layout/Navbar";
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
 // import PostList from "./components/Posts/PostList"
-import CreatePost from "./components/Posts/CreatePost"
+import CreatePost from "./components/Posts/CreatePost";
 // import EditPost from "./components/Posts/EditPost"
-import PostDetail from "./components/Posts/PostDetail"
+import PostDetail from "./components/Posts/PostDetail";
 // import UserManagement from "./components/Admin/UserManagement"
-import ProtectedRoute from "./components/Auth/ProtectedRoute"
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
 // import AdminRoute from "./components/Auth/AdminRoute"
-import ToastContainer from "./components/ToastContainer"
-import PostList from "./components/Posts/PostList"
+import ToastContainer from "./components/ToastContainer";
+import PostList from "./components/Posts/PostList";
 
 function App() {
-  const dispatch = useDispatch()
-  const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth)
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useEffect(() => {
-    dispatch(checkAuthStatus() as any)
-  }, [dispatch])
+    dispatch(checkAuthStatus() as any);
+  }, [dispatch]);
 
   if (loading) {
     return (
@@ -33,7 +35,7 @@ function App() {
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -41,8 +43,14 @@ function App() {
       <Navbar />
       <div className="container mt-4">
         <Routes>
-          <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/posts" />} />
-          <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/posts" />} />
+          <Route
+            path="/login"
+            element={!isAuthenticated ? <Login /> : <Navigate to="/posts" />}
+          />
+          <Route
+            path="/register"
+            element={!isAuthenticated ? <Register /> : <Navigate to="/posts" />}
+          />
 
           <Route
             path="/posts"
@@ -92,9 +100,16 @@ function App() {
           <Route path="/" element={<Navigate to="/posts" />} />
         </Routes>
       </div>
+      <div>
+        <div className="footer text-center py-3 mt-4">
+          <span className="text-muted">
+            © 2025 Nguyễn Thanh Nhứt - Post Management System
+          </span>
+        </div>
+      </div>
       <ToastContainer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

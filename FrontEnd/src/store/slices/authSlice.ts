@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { authAPI } from "../../servies/api";
+import { authAPI, userAPI } from "../../servies/api";
 
 interface User {
   id: number;
@@ -72,6 +72,19 @@ export const register = createAsyncThunk<
   }
 });
 
+export const fetchCurrentUser = createAsyncThunk(
+  "auth/fetchCurrentUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await userAPI.getCurrentUser();
+      const result = response.data as { success: boolean; message: string; data: User };
+      return result.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 export const checkAuthStatus = createAsyncThunk<{ token: string }, void>(
   "auth/checkStatus",
   async () => {
@@ -142,6 +155,13 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = null;
         localStorage.removeItem("token");
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.error = action.error.message || "Failed to fetch user";
       });
   },
 });

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import type { RootState } from "../../store/store"
-import { login, clearError } from "../../store/slices/authSlice"
+import { login, clearError, fetchCurrentUser } from "../../store/slices/authSlice"
 import { addToast } from "../../store/slices/toastSlice"
 
 const Login: React.FC = () => {
@@ -109,6 +109,13 @@ const Login: React.FC = () => {
 
     if (validateForm()) {
       dispatch(login(formData) as any)
+      .unwrap()
+      .then(() => {
+        dispatch(fetchCurrentUser() as any);
+      })
+      .catch((error: any) => {
+        console.error("Login failed:", error);
+      }); 
     } else {
       dispatch(
         addToast({
@@ -121,11 +128,6 @@ const Login: React.FC = () => {
 
   return (
     <div className="row justify-content-center">
-      <div className="col-12 text-center mb-4">
-        <h3 className="display-6">
-          Post Management - Nguyễn Thanh Nhứt
-        </h3>
-      </div>
       <div className="col-md-6 col-lg-4">
         <div className="card shadow">
           <div className="card-body">
