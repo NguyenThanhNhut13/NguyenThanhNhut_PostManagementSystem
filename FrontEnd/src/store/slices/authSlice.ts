@@ -154,7 +154,7 @@ const authSlice = createSlice({
           "Đăng ký thất bại!";
         state.registerSuccess = false;
       })
-      .addCase(checkAuthStatus.fulfilled, (state, action) => {
+      .addCase(checkAuthStatus.fulfilled, (state, _action) => {
         state.isAuthenticated = true;
         state.loading = false;
       })
