@@ -30,10 +30,24 @@ const PostList: React.FC = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     dispatch(fetchPosts(filters) as any);
   }, [dispatch, filters]);
+
+  // Filter posts based on search term
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredPosts(posts);
+    } else {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      const filtered = posts.filter(post => 
+        post.title.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+      setFilteredPosts(filtered);
+    }
+  }, [posts, searchTerm]);
 
   const handleFilterChange = (newFilters: Partial<typeof filters>) => {
     setFilters({ ...filters, ...newFilters, page: 0 });
@@ -45,14 +59,8 @@ const PostList: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would be sent to the API
-    dispatch(
-      addToast({
-        message:
-          "Tính năng tìm kiếm sẽ được triển khai trong phiên bản tiếp theo",
-        type: "info",
-      })
-    );
+    // We're already filtering posts in the useEffect above
+    // This function is just to handle the form submission
   };
 
   const handleDeletePost = async (id: number) => {
@@ -158,14 +166,39 @@ const PostList: React.FC = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Tìm kiếm bài viết..."
+                placeholder="Tìm kiếm bài viết theo tiêu đề..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <button className="btn btn-outline-secondary" type="submit">
+              {searchTerm && (
+                <button 
+                  className="btn btn-outline-secondary" 
+                  type="button"
+                  onClick={() => setSearchTerm("")}
+                  title="Xóa tìm kiếm"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              )}
+              <button className="btn btn-outline-secondary" type="submit" title="Tìm kiếm">
                 <i className="fas fa-search"></i>
               </button>
             </div>
+            {searchTerm && (
+              <div className="small text-muted mt-1">
+                {filteredPosts.length > 0 ? (
+                  <span>
+                    <i className="fas fa-info-circle me-1"></i>
+                    Tìm thấy {filteredPosts.length} kết quả cho "{searchTerm}"
+                  </span>
+                ) : (
+                  <span className="text-danger">
+                    <i className="fas fa-exclamation-circle me-1"></i>
+                    Không tìm thấy kết quả nào cho "{searchTerm}"
+                  </span>
+                )}
+              </div>
+            )}
           </form>
 
           {/* Filters */}
@@ -265,16 +298,33 @@ const PostList: React.FC = () => {
 
       {/* Posts Grid */}
       <div className="row">
-        {posts.filter(post => post && post.id).map((post: Post) => (
-          <div key={post.id} className="col-md-6 col-lg-4 mb-4">
-            <PostCard
-              post={post}
-              currentUser={user}
-              onDelete={handleDeletePost}
-              isDeleting={isDeleting === post.id}
-            />
+        {searchTerm.trim() && filteredPosts.length === 0 ? (
+          <div className="col-12 text-center py-5">
+            <div className="text-muted">
+              <i className="fas fa-search fa-3x mb-3"></i>
+              <h4>Không tìm thấy bài viết nào</h4>
+              <p>Không có bài viết nào phù hợp với từ khóa "{searchTerm}"</p>
+              <button 
+                className="btn btn-outline-secondary mt-2"
+                onClick={() => setSearchTerm("")}
+              >
+                <i className="fas fa-times me-2"></i>
+                Xóa tìm kiếm
+              </button>
+            </div>
           </div>
-        ))}
+        ) : (
+          (searchTerm.trim() ? filteredPosts : posts).filter(post => post && post.id).map((post: Post) => (
+            <div key={post.id} className="col-md-6 col-lg-4 mb-4">
+              <PostCard
+                post={post}
+                currentUser={user}
+                onDelete={handleDeletePost}
+                isDeleting={isDeleting === post.id}
+              />
+            </div>
+          ))
+        )}
       </div>
 
       {/* Pagination */}
