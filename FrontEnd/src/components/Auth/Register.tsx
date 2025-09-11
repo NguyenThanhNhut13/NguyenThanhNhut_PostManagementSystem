@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import type { RootState } from "../../store/store"
 import { register, clearError } from "../../store/slices/authSlice"
 import { addToast } from "../../store/slices/toastSlice"
@@ -40,8 +40,7 @@ const Register: React.FC = () => {
   })
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { loading, error, isAuthenticated, registerSuccess } = useSelector((state: RootState) => state.auth)
+  const { loading, error, registerSuccess } = useSelector((state: RootState) => state.auth)
 
   useEffect(() => {
     if (registerSuccess) {

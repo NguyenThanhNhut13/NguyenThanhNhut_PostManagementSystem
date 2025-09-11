@@ -1,6 +1,8 @@
 import axios from "axios"
+import config from "../config"
 
-const API_BASE_URL = "http://localhost:8080/api"
+// Sử dụng cấu hình từ file config
+const API_BASE_URL = config.apiBaseUrl
 
 const api = axios.create({
   baseURL: API_BASE_URL,
