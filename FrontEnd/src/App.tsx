@@ -1,34 +1,96 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+"use client"
+
+import { useEffect } from "react"
+import { Routes, Route, Navigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import type { RootState } from "./store/store"
+import { checkAuthStatus } from "./store/slices/authSlice"
+// import Navbar from "./components/Layout/Navbar"
+import Login from "./components/Auth/Login"
+// import Register from "./components/Auth/Register"
+// import PostList from "./components/Posts/PostList"
+// import CreatePost from "./components/Posts/CreatePost"
+// import EditPost from "./components/Posts/EditPost"
+// import PostDetail from "./components/Posts/PostDetail"
+// import UserManagement from "./components/Admin/UserManagement"
+// import ProtectedRoute from "./components/Auth/ProtectedRoute"
+// import AdminRoute from "./components/Auth/AdminRoute"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch()
+  const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth)
+
+  useEffect(() => {
+    dispatch(checkAuthStatus() as any)
+  }, [dispatch])
+
+  if (loading) {
+    return (
+      <div className="loading-spinner">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      {/* <Navbar /> */}
+      <div className="container mt-4">
+        <Routes>
+          <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/posts" />} />
+          {/* <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/posts" />} /> */}
+
+          {/* <Route
+            path="/posts"
+            element={
+              <ProtectedRoute>
+                <PostList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/posts/create"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/posts/:id"
+            element={
+              <ProtectedRoute>
+                <PostDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/posts/:id/edit"
+            element={
+              <ProtectedRoute>
+                <EditPost />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/users"
+            element={
+              <AdminRoute>
+                <UserManagement />
+              </AdminRoute>
+            }
+          /> */}
+
+          <Route path="/" element={<Navigate to="/posts" />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
